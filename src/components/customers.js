@@ -126,10 +126,15 @@ const Customers = () =>{
     }
 
     const SearchName = () =>{
-        axios.get(api + 'customers/search?FirstName=' + firstName).then(response=>{
-            dataGrid.rowData = response.data;
-            setDatagrid({...dataGrid})
-         });
+        if(firstName !== ""){
+            axios.get(api + 'customers/search?FirstName=' + firstName).then(response=>{
+                dataGrid.rowData = response.data;
+                setDatagrid({...dataGrid})
+             });
+        }else{
+            loadCustomers();
+        }
+       
     }
 
     return (
