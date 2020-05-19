@@ -13,19 +13,17 @@ const Customers = () =>{
 
     const [show, setShow] = useState(false);
     const [nameModal, setNameModal] = useState("Add a customer");
-    const [firstName, setFirstName] = useState("");
+    const [search, setSearch] = useState("");
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     const [dataCustomer,setDataCustomer] = useState({
           customer : {}  
     });
 
-    const onGridReady = params => {
-        gridApi = params.api;  
-     };
+    const [field, setField] = useState("FirstName");
 
+  
     const [dataGrid,setDatagrid] = useState({
         columnDefs: [
             {headerName: "Id", field: "id",sortable: true, filter: true},
@@ -121,13 +119,13 @@ const Customers = () =>{
     }
 
     const changeTextName = event => {
-        setFirstName(event.target.value);
+        setSearch(event.target.value);
         
     }
 
     const SearchName = () =>{
-        if(firstName !== ""){
-            axios.get(api + 'customers/search?FirstName=' + firstName).then(response=>{
+        if(search !== ""){
+            axios.get(api + 'customers/search?search=' + search + '&field=' + field).then(response=>{
                 dataGrid.rowData = response.data;
                 setDatagrid({...dataGrid})
              });
@@ -137,6 +135,10 @@ const Customers = () =>{
        
     }
 
+    const changeField = (event) =>{
+        setField(event.target.value);
+    }
+
     return (
         
     <React.Fragment>
@@ -144,7 +146,16 @@ const Customers = () =>{
             <Form inline>
             <Navbar.Brand style={{color:'white'}}>Blaze</Navbar.Brand>
             </Form>
+           
             <Form inline>
+            <Form.Group controlId="exampleForm.SelectCustom" style={{ marginRight:'10px' }} >
+                <Form.Control as="select" custom onChange={changeField.bind(this)}>
+                <option value="FirstName">First Name</option>
+                <option value="LastName">Last Name</option>
+                <option value="Email">Email</option>
+                <option value="PhoneNumber">Phone Number</option>
+                </Form.Control>
+            </Form.Group>
                 <FormControl type="text" placeholder="Search a customer" onChange={changeTextName} className=" mr-sm-2" />
                 <Button type="button" onClick={SearchName}>Search</Button>
             </Form>
