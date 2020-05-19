@@ -7,7 +7,7 @@ import {Modal,Button, Navbar, Form, FormControl, Container, Row, Col} from 'reac
 
 const Customers = () =>{
 
-    let api = 'http://localhost:8080/';
+    let api = 'https://blaze-api.herokuapp.com/';
 
     const gridApi = useRef();
 
